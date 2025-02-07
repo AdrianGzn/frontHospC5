@@ -14,7 +14,7 @@ import ApiRoutes from "../../core/api/apiRoutes"
 export default function ServiceCRUD() {
     const [services, setServices] = useState([]);
 
-    useEffect(() => {
+    const fetchServices = () => {
         fetch(ApiRoutes.service)
         .then(data => {
             return data.json()
@@ -26,6 +26,10 @@ export default function ServiceCRUD() {
             console.log("Error: " + error);
             
         })
+    }
+
+    useEffect(() => {
+        fetchServices();
     }, []);
 
     return <div className="w-full h-screen flex flex-col">
@@ -38,9 +42,9 @@ export default function ServiceCRUD() {
     
             <div className="w-[100%] h-full flex flex-col">
                 <div className="w-full h-[calc(50%)] flex flex-wrap justify-evenly items-center">
-                    <FormCreateService></FormCreateService>
-                    <FormDeleteService></FormDeleteService>
-                    <FormEditService></FormEditService>
+                    <FormCreateService event={fetchServices}></FormCreateService>
+                    <FormDeleteService event={fetchServices}></FormDeleteService>
+                    <FormEditService event={fetchServices}></FormEditService>
                     <FormGetService></FormGetService>
                 </div>
     

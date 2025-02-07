@@ -14,7 +14,7 @@ import ApiRoutes from "../../core/api/apiRoutes"
 export default function HospitalCRUD() {
     const [hospitals, setHospitals] = useState([]);
 
-    useEffect(() => {
+    const fetchHospitals = () => {
         fetch(ApiRoutes.hospital)
         .then(data => {
             return data.json()
@@ -25,6 +25,10 @@ export default function HospitalCRUD() {
         .catch(error => {
             console.log("Error: " + error);
         })
+    };
+
+    useEffect(() => {
+        fetchHospitals();
     }, []);
 
 
@@ -38,9 +42,9 @@ export default function HospitalCRUD() {
 
             <div className="w-[100%] h-full flex flex-col">
                 <div className="w-full h-[calc(50%)] flex flex-wrap justify-evenly items-center">
-                    <FormCreateHospital></FormCreateHospital>
-                    <FormDeleteHospital></FormDeleteHospital>
-                    <FormEditHospital></FormEditHospital>
+                    <FormCreateHospital event={fetchHospitals}></FormCreateHospital>
+                    <FormDeleteHospital event={fetchHospitals}></FormDeleteHospital>
+                    <FormEditHospital event={fetchHospitals}></FormEditHospital>
                     <FormGetHospital></FormGetHospital>
                 </div>
 
